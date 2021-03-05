@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Library</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <div id="main">
+      <h1 id="title">My Library</h1>
+      <div id="library"></div>
+      <button id="add-button">Add book</button>
+    </div>
+
+    <div id="modal">
+      <div id="popup">
+        <form id="form">
+          <h3>Add a new book</h3>
+          <input
+            class="form-input"
+            id="form-title"
+            name="title"
+            placeholder="Title"
+          />
+          <input
+            class="form-input"
+            id="author"
+            name="author"
+            placeholder="Author"
+          />
+          <input
+            class="form-input"
+            type="number"
+            placeholder="Number of pages"
+          />
+          <div class="form-input" id="completed-group">
+            <p>Completed?</p>
+            <input type="checkbox" id="completed" name="completed" />
+          </div>
+          <div class="buttons">
+            <button
+              class="form-input modal-button"
+              id="save-button"
+              type="submit"
+            >
+              Save
+            </button>
+            <button
+              class="form-input modal-button"
+              id="cancel-button"
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+</html>
