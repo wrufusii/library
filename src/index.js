@@ -46,14 +46,18 @@ function displayLibrary(libraryArr) {
     const bookCard = document.createElement("div");
     bookCard.classList.add("book-card");
     bookCard.setAttribute("data-index", index);
+
+    let reading = book.read ? "" : "reading";
+    let completed = book.read ? "completed" : "";
+
     const bookDetails = `
-        <div class="remove-button hide"><p>X</p></div>
+        <div class="remove-button hide">X</div>
           <h3 class="book-title">${book.title}</h3>
             <p class="author">${book.author}</p>
               <p class="pages">${book.pages} pages</p>
                 <div class="read-state">
-                  <p>Reading</p>
-                  <p>Completed</p>
+                  <p class=${reading}>Reading</p>
+                  <p class=${completed}>Completed</p>
                 </div>`;
     bookCard.innerHTML = bookDetails;
     library.appendChild(bookCard);
@@ -76,13 +80,13 @@ function toggleModal() {
 //bookCard selector and event listeners
 const bookCards = [...document.querySelectorAll(".book-card")];
 console.log(bookCards);
-bookCards.forEach((bookCard) =>
-  bookCard.addEventListener("mouseenter", function (e) {
-    e.target.firstChild.nextSibling.classList.remove("hide");
-  })
-);
-bookCards.forEach((bookCard) =>
-  bookCard.addEventListener("mouseleave", function (e) {
-    e.target.firstChild.nextSibling.classList.add("hide");
-  })
-);
+// bookCards.forEach((bookCard) =>
+//   bookCard.addEventListener("mouseenter", function (e) {
+//     e.target.firstChild.nextSibling.classList.remove("hide");
+//   })
+// );
+// bookCards.forEach((bookCard) =>
+//   bookCard.addEventListener("mouseleave", function (e) {
+//     e.target.firstChild.nextSibling.classList.add("hide");
+//   })
+// );

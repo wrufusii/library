@@ -33,6 +33,7 @@ body {
   bottom: 20px;
   transform: translate(-50%, -50%);
   margin: 0 auto;
+  background-color: #a7cced;
 }
 
 #library {
@@ -70,11 +71,13 @@ body {
   width: 40px;
   height: 40px;
   position: absolute;
-  right: -6px;
-  top: -8px;
+  right: -10px;
+  top: -10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 900;
+  font-size: 1.2rem;
 }
 
 .remove-button p {
@@ -82,8 +85,17 @@ body {
   text-align: center;
 }
 
-.hide {
+.book-card > .remove-button {
   visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s, opacity 0.2s linear;
+}
+
+.book-card:hover > .remove-button {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+  box-shadow: 0 4px 12px 0px rgba(0, 0, 0, 0.25);
 }
 
 .book-title {
@@ -123,11 +135,13 @@ body {
   margin-top: auto;
   /* border: 1px solid #DCE3E7CC; */
   margin-bottom: 10px;
+  color: #86a1a8;
 }
 
 .completed,
 .reading {
   color: #dce3e7;
+  border-bottom: 2px solid #dce3e7;
 }
 
 #modal {
@@ -151,6 +165,10 @@ body {
   max-height: 400px;
   margin: 15% auto; /* 15% from the top and centered */
   border: 1px solid gray;
+}
+
+#popup-title {
+  text-align: center;
 }
 
 #form {
