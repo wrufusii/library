@@ -1,6 +1,7 @@
 import "./styles.css";
 
 //selectors
+const library = document.getElementById("library");
 const modal = document.getElementById("modal");
 const addButton = document.getElementById("add-button");
 const cancelButton = document.getElementById("cancel-button");
@@ -38,8 +39,6 @@ function addBookToLibrary() {
 
 //render library
 function displayLibrary(libraryArr) {
-  const library = document.getElementById("library");
-
   libraryArr.forEach(createBookCard);
 
   function createBookCard(book, index) {
@@ -56,15 +55,21 @@ function displayLibrary(libraryArr) {
             <p class="author">${book.author}</p>
               <p class="pages">${book.pages} pages</p>
                 <div class="read-state">
-                  <p class=${reading}>Reading</p>
-                  <p class=${completed}>Completed</p>
+                  <p class=${reading} onclick="changeReadStatus()">Reading</p>
+                  <p class=${completed} onclick="changeReadStatus()">Completed</p>
                 </div>`;
     bookCard.innerHTML = bookDetails;
     library.appendChild(bookCard);
   }
 }
 
+//sort array to show uncompleted books first
+myLibrary.sort(function (x, y) {
+  return x.read === y.read ? 0 : x.read ? 1 : -1;
+});
+
 displayLibrary(myLibrary);
+addRemoveButtonListener();
 
 //toggle add book modal
 function toggleModal() {
@@ -77,16 +82,20 @@ function toggleModal() {
   console.log(modalOpen);
 }
 
-//bookCard selector and event listeners
-const bookCards = [...document.querySelectorAll(".book-card")];
-console.log(bookCards);
-// bookCards.forEach((bookCard) =>
-//   bookCard.addEventListener("mouseenter", function (e) {
-//     e.target.firstChild.nextSibling.classList.remove("hide");
-//   })
-// );
-// bookCards.forEach((bookCard) =>
-//   bookCard.addEventListener("mouseleave", function (e) {
-//     e.target.firstChild.nextSibling.classList.add("hide");
-//   })
-// );
+//removeButton selector and event listeners
+function addRemoveButtonListener() {
+  const removeButtons = [...document.querySelectorAll(".remove-button")];
+
+  removeButtons.forEach((button) =>
+    button.addEventListener("click", function (e) {
+      let bookIndex = e.target.parentNode.getAttribute("data-index");
+      library.innerHTML = "";
+      myLibrary.splice(bookIndex, 1);
+      console.log(myLibrary);
+      displayLibrary(myLibrary);
+      addRemoveButtonListener();
+    })
+  );
+}
+
+//changeReadStatus
