@@ -23,6 +23,7 @@ body {
   letter-spacing: 0.6rem;
   font-weight: 900;
   margin-top: 60px;
+  text-align: center;
 }
 
 #add-button {
@@ -139,7 +140,7 @@ body {
   margin: auto;
 }
 
-.read-state {
+.read-states {
   width: 80%;
   letter-spacing: 0.08rem;
   display: flex;
@@ -152,8 +153,7 @@ body {
   color: #86a1a8;
 }
 
-.completed,
-.reading {
+.active {
   color: #dce3e7;
   border-bottom: 2px solid #dce3e7;
 }

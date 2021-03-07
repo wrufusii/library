@@ -10,6 +10,7 @@ const saveButton = document.getElementById("save-button");
 //event listeners
 addButton.addEventListener("click", toggleModal);
 cancelButton.addEventListener("click", toggleModal);
+saveButton.addEventListener("click", addBookToLibrary);
 
 //initialisation
 let myLibrary = [];
@@ -19,8 +20,14 @@ let modalOpen = false;
 let test = new Book("The Hobbit", "JRR Tolkien", 650, true);
 let test2 = new Book("Code", "Charles Petzold", 210, false);
 let test3 = new Book("Shoe Dog", "Phil Knight", 540, true);
-let test4 = new Book("Pandas", "Mr G", 210, false);
-myLibrary.push(test, test2, test3, test4);
+let test4 = new Book("Ow I'm Felix", "Felix", 210, false);
+let ronnie = new Book(
+  "Let's find out then: My Life with Ronnie Pickering",
+  "Gladys Pickering",
+  1100,
+  true
+);
+myLibrary.push(test, test2, test3, test4, ronnie);
 
 //book constructor
 function Book(title, author, pages, read) {
@@ -28,13 +35,22 @@ function Book(title, author, pages, read) {
     (this.author = author),
     (this.pages = pages),
     (this.read = read);
-  this.info = function () {
-    return `${this.title} by ${this.author}`;
+  this.toggleRead = function () {
+    console.log("yeap");
+    this.read = !this.read;
   };
 }
 
 function addBookToLibrary() {
-  // do stuff here
+  const title = document.getElementById("form-title").value;
+  const author = document.getElementById("author").value;
+  const pages = document.getElementById("pages").value;
+  const read = document.getElementById("completed").checked;
+  let newBook = new Book(title, author, pages, read);
+  myLibrary.push(newBook);
+  library.innerHTML = "";
+  displayLibrary(myLibrary);
+  toggleModal();
 }
 
 //render library
@@ -46,21 +62,31 @@ function displayLibrary(libraryArr) {
     bookCard.classList.add("book-card");
     bookCard.setAttribute("data-index", index);
 
-    let reading = book.read ? "" : "reading";
-    let completed = book.read ? "completed" : "";
+    let readingClass = book.read
+      ? `read-state reading`
+      : `read-state reading active`;
+    let completedClass = book.read
+      ? `read-state completed active`
+      : `read-state completed`;
+
+    console.log(readingClass);
+    console.log(completedClass);
 
     const bookDetails = `
         <div class="remove-button hide">X</div>
           <h3 class="book-title">${book.title}</h3>
             <p class="author">${book.author}</p>
               <p class="pages">${book.pages} pages</p>
-                <div class="read-state">
-                  <p class=${reading} onclick="changeReadStatus()">Reading</p>
-                  <p class=${completed} onclick="changeReadStatus()">Completed</p>
+                <div class="read-states">
+                  <p class="${readingClass}">Reading</p>
+                  <p class="${completedClass}">Completed</p>
                 </div>`;
     bookCard.innerHTML = bookDetails;
+
     library.appendChild(bookCard);
   }
+  addRemoveButtonListener();
+  addReadToggle();
 }
 
 //sort array to show uncompleted books first
@@ -69,7 +95,6 @@ myLibrary.sort(function (x, y) {
 });
 
 displayLibrary(myLibrary);
-addRemoveButtonListener();
 
 //toggle add book modal
 function toggleModal() {
@@ -93,9 +118,28 @@ function addRemoveButtonListener() {
       myLibrary.splice(bookIndex, 1);
       console.log(myLibrary);
       displayLibrary(myLibrary);
-      addRemoveButtonListener();
     })
   );
 }
 
 //changeReadStatus
+function addReadToggle() {
+  const readStates = [...document.querySelectorAll(".read-state")];
+  console.log(readStates);
+
+  readStates.forEach((state) =>
+    state.addEventListener("click", function (e) {
+      let bookIndex = e.target.parentNode.parentNode.getAttribute("data-index");
+      let readingState = e.target.parentNode.firstElementChild;
+      let completedState = e.target.parentNode.lastElementChild;
+      if (myLibrary[bookIndex].read) {
+        readingState.classList.add("active");
+        completedState.classList.remove("active");
+      } else {
+        readingState.classList.remove("active");
+        completedState.classList.add("active");
+      }
+      myLibrary[bookIndex].toggleRead();
+    })
+  );
+}
